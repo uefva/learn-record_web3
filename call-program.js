@@ -25,8 +25,14 @@ async function main() {
 
   const instruction = new TransactionInstruction({
     programId,
-    keys: [],
-    data: Buffer.alloc(0),
+    keys: [
+      {
+        pubkey: programId,
+        isSigner: false, 
+        isWritable: false
+      }
+    ],
+    data: Buffer.alloc(10),
   });
 
   const transaction = new Transaction().add(instruction);
