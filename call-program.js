@@ -15,7 +15,7 @@ async function main() {
   const connection = new Connection("http://127.0.0.1:8899", "confirmed");
 
   const programId = new PublicKey(
-    "Gr7n4JCtw13j1ayiN8UCixv8v4BnbsQnY2CQoVd9ffjq"
+    "HPhdXbDzyoQQVjA94o6JWpd1zP5bJD5PpgwtWeeRwKx3"
   );
 
   const secretKey = Uint8Array.from(
@@ -62,5 +62,3 @@ main().catch((err) => {
   console.error("Call failed:", err);
   process.exitCode = 1;
 });
-
-跟之前的比有什么改变
