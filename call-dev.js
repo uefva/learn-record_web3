@@ -6,6 +6,7 @@ const {
     Transaction,
     TransactionInstruction,
     SendTransactionError,
+    SystemProgram
 } = require("@solana/web3.js");
 
 const { setGlobalDispatcher, ProxyAgent } = require("undici");
@@ -62,7 +63,7 @@ async function main() {
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
     const programId = new PublicKey(
-        "HPhdXbDzyoQQVjA94o6JWpd1zP5bJD5PpgwtWeeRwKx3"
+        "529NN5LZgBptRJhX8zsjAMEe2BDrLyrA6H4RfFJUnj5x"
     );
 
     const secretKey = Uint8Array.from(
@@ -86,10 +87,30 @@ async function main() {
     console.log("Payer balance (lamports):", balance);
     if (balance === 0) throw new Error("devnet 余额为 0，请先 airdrop");
 
+    const counterAccount = new PublicKey(
+        "FmZvpz8Nub192NdoWDTA8MJfcPQvrqPR2dZdXhzZj3N9"
+    );
+
+    // 种子必须和 Rust 一致：用户公钥的字节
+    const [counterPda, bump] = PublicKey.findProgramAddressSync(
+        [payer.publicKey.toBytes()],
+        programId
+    );
+
+    console.log("Counter PDA:", counterPda.toBase58());
+    console.log("Bump:", bump);
+
+    const { SYSVAR_RENT_PUBKEY } = require("@solana/web3.js");
+
     const instruction = new TransactionInstruction({
         programId,
-        keys: [{ pubkey: programId, isSigner: false, isWritable: false }],
-        data: Buffer.alloc(10),
+        keys: [
+            { pubkey: payer.publicKey, isSigner: true, isWritable: true },
+            { pubkey: counterPda, isSigner: false, isWritable: true },
+            { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+            { pubkey: SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
+        ],
+        data: Buffer.from([0]), // 假设 Rust 约定 0 表示初始化
     });
 
     const { blockhash, lastValidBlockHeight } =
