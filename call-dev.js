@@ -66,6 +66,7 @@ async function main() {
         "529NN5LZgBptRJhX8zsjAMEe2BDrLyrA6H4RfFJUnj5x"
     );
 
+    // const secretKey = Uint8Array.from([92,14,54,243,238,136,103,137,72,118,233,69,184,123,95,139,17,71,115,98,9,137,253,68,10,18,112,249,74,135,164,61,74,220,224,178,65,83,36,255,183,146,100,108,237,48,78,63,170,144,147,162,92,201,19,81,62,63,103,25,168,28,168,108]);
     const secretKey = Uint8Array.from(
         JSON.parse(
             fs.readFileSync(
@@ -86,10 +87,6 @@ async function main() {
     console.log("Payer:", payer.publicKey.toBase58());
     console.log("Payer balance (lamports):", balance);
     if (balance === 0) throw new Error("devnet 余额为 0，请先 airdrop");
-
-    const counterAccount = new PublicKey(
-        "FmZvpz8Nub192NdoWDTA8MJfcPQvrqPR2dZdXhzZj3N9"
-    );
 
     // 种子必须和 Rust 一致：用户公钥的字节
     const [counterPda, bump] = PublicKey.findProgramAddressSync(
