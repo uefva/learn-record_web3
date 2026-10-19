@@ -10,16 +10,30 @@ use solana_program::{
 entrypoint!(process_instruction);
 
 pub fn process_instruction(
-    _program_id: &Pubkey,
-    _accounts: &[AccountInfo],
-    _instruction_data: &[u8],
+    program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    data: &[u8],
 ) -> ProgramResult {
-    msg!("[process_instruction]: Hello, world!");
+    msg!("[main]: Hello, Web3!");
 
-    msg!("program_id: {}", _program_id);
-    msg!("accounts count: {}", _accounts.len());
+    print_account_info(program_id, accounts, data);
 
-    for (i, account) in _accounts.iter().enumerate() {
+
+
+    Ok(())
+}
+
+pub fn print_account_info(
+    program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    data: &[u8],
+) {
+    msg!("[main]: print_account_info");
+
+    msg!("program_id: {}", program_id);
+    msg!("accounts count: {}", accounts.len());
+
+    for (i, account) in accounts.iter().enumerate() {
         msg!("--- Account [{}] ---", i);
         msg!("pubkey: {}", account.key);
         msg!("owner: {}", account.owner);
@@ -27,11 +41,10 @@ pub fn process_instruction(
         msg!("is_writable: {}", account.is_writable);
         msg!("executable: {}", account.executable);
         msg!("lamports: {}", account.lamports());
-        msg!("data_len: {}", account.data_len());
+        msg!("data len: {}", account.data_len());
+        msg!("account data: {:?}", account.data);
+        msg!("data: [{:?}]", data);
+        msg!("");
+        msg!("");
     }
-
-    msg!("instruction_data len: {}", _instruction_data.len());
-    msg!("instruction_data: {:?}", _instruction_data);
-
-    Ok(())
 }
