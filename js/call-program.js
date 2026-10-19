@@ -15,7 +15,7 @@ async function main() {
   const connection = new Connection("http://127.0.0.1:8899", "confirmed");
 
   const programId = new PublicKey(
-    "HPhdXbDzyoQQVjA94o6JWpd1zP5bJD5PpgwtWeeRwKx3"
+    "529NN5LZgBptRJhX8zsjAMEe2BDrLyrA6H4RfFJUnj5x"
   );
 
   const secretKey = Uint8Array.from(
