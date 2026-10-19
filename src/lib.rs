@@ -1,12 +1,8 @@
-use solana_program::{
-    account_info::AccountInfo,
-    entrypoint,
-    entrypoint::ProgramResult,
-    msg,
-    pubkey::Pubkey,
-};
-use solana_program::sysvar::Sysvar;
 use solana_program::program_error::ProgramError;
+use solana_program::sysvar::Sysvar;
+use solana_program::{
+    account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
+};
 
 entrypoint!(process_instruction);
 
@@ -28,10 +24,7 @@ pub fn process_instruction(
     Ok(())
 }
 
-pub fn account_counter(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-) -> ProgramResult {
+pub fn account_counter(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
     msg!("[main] account_counter");
 
     for account in accounts {
@@ -60,9 +53,7 @@ pub fn account_counter(
     Ok(())
 }
 
-pub fn account_info(
-    account: &AccountInfo,
-) {
+pub fn account_info(account: &AccountInfo) {
     msg!("------ [main]: print_account_info ------");
     msg!("key: {}", account.key);
     msg!("lamports: {}", account.lamports());
@@ -74,11 +65,7 @@ pub fn account_info(
     msg!("-----------------------------------------");
 }
 
-pub fn print_accounts_info(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-    data: &[u8],
-) {
+pub fn print_accounts_info(program_id: &Pubkey, accounts: &[AccountInfo], data: &[u8]) {
     msg!("[main]: print_accounts_info");
 
     msg!("program_id: {}", program_id);
@@ -98,12 +85,7 @@ pub fn print_accounts_info(
     }
 }
 
-
-pub fn account_txt(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-    data: &[u8],
-) -> ProgramResult {
+pub fn account_txt(program_id: &Pubkey, accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {
     msg!("[main] account_txt");
 
     let accounts_iter = &mut accounts.iter();
@@ -112,9 +94,10 @@ pub fn account_txt(
     let account_system = solana_program::account_info::next_account_info(accounts_iter)?; // Program system
     // let _ = solana_program::account_info::next_account_info(accounts_iter)?; // Program sysvar rent
 
-    msg!("account_user: {:?}", account_user);
-    msg!("account_data: {:?}", account_data);
-    msg!("account_system: {:?}", account_system);
+    msg!("begen account_user: {:?}", account_user);
+    msg!("begen account_data: {:?}", account_data);
+    msg!("begen account_system: {:?}", account_system);
+    msg!("begen account_data.date: {:?}", account_data.data);
 
     let rent_exemption = solana_program::rent::Rent::get()?.minimum_balance(data.len());
     let bump_seed = Pubkey::find_program_address(&[&account_user.key.to_bytes()], program_id).1;
@@ -152,19 +135,27 @@ pub fn account_txt(
     // Withdraw excess funds and return them to users. Since the funds in the pda account belong to the program, we do
     // not need to use instructions to transfer them here.
     if rent_exemption < account_data.lamports() {
-        **account_user.lamports.borrow_mut() = account_user.lamports() + account_data.lamports() - rent_exemption;
+        **account_user.lamports.borrow_mut() =
+            account_user.lamports() + account_data.lamports() - rent_exemption;
         **account_data.lamports.borrow_mut() = rent_exemption;
     }
 
-    msg!("begen account_data.date: {:?}", account_data.data);
-    let d = unsafe { *account_data.data.borrow_mut().as_mut_ptr() + 1};
+    let mut tmp = *account_data
+        .data
+        .borrow()
+        .first()
+        .ok_or(ProgramError::InvalidAccountData)?;
+    tmp += 1;
 
     // Realloc space.
-    account_data.resize(data.len())?;
+    account_data.resize(size_of_val(&tmp))?;
     // Overwrite old data with new data.
     // account_data.data.borrow_mut().copy_from_slice(data);
-    account_data.data.borrow_mut().copy_from_slice(&[d]);
+    account_data.data.borrow_mut()[0] = tmp;
 
+    msg!("begen account_user: {:?}", account_user);
+    msg!("begen account_data: {:?}", account_data);
+    msg!("begen account_system: {:?}", account_system);
     msg!("after account_data.date: {:?}", account_data.data);
     Ok(())
 }
