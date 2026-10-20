@@ -1,9 +1,7 @@
+use crate::utility;
 use solana_program::program_error::ProgramError;
 use solana_program::sysvar::Sysvar;
-use solana_program::{
-    account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey,
-};
-use crate::utility;
+use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey};
 
 pub fn process_instruction(
     program_id: &Pubkey,
@@ -19,14 +17,18 @@ pub fn process_instruction(
     Ok(())
 }
 
-pub fn account_counter(program_id: &Pubkey, accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {
+pub fn account_counter(
+    program_id: &Pubkey,
+    accounts: &[AccountInfo],
+    data: &[u8],
+) -> ProgramResult {
     msg!("[main] account_counter");
 
     let accounts_iter = &mut accounts.iter();
     let account_user = solana_program::account_info::next_account_info(accounts_iter)?;
     let account_data = solana_program::account_info::next_account_info(accounts_iter)?;
     let account_system = solana_program::account_info::next_account_info(accounts_iter)?; // Program system
-    // let _ = solana_program::account_info::next_account_info(accounts_iter)?; // Program sysvar rent
+                                                                                          // let _ = solana_program::account_info::next_account_info(accounts_iter)?; // Program sysvar rent
 
     utility::show_account_info(account_user);
     utility::show_account_info(account_data);

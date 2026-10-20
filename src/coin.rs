@@ -28,7 +28,7 @@ fn read_amount(data: &[u8]) -> Result<u64, ProgramError> {
     Ok(u64::from_be_bytes(buf))
 }
 
-fn read_balance(account: &AccountInfo) -> Result<u64, ProgramError> {
+pub(crate) fn read_balance(account: &AccountInfo) -> Result<u64, ProgramError> {
     let data = account.try_borrow_data()?;
     if data.len() != ACCOUNT_SPACE {
         return Err(ProgramError::InvalidAccountData);
