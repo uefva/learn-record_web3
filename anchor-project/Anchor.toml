@@ -10,10 +10,17 @@ skip-lint = false
 anchor_project = "2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK"
 
 [provider]
-cluster = "localnet"
+cluster = "https://rpc.ankr.com/solana_devnet/[key]"
 wallet = "~/.config/solana/id.json"
+
+[programs.devnet]
+anchor_project = "2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK"
 
 [scripts]
 test = "cargo test"
 
 [hooks]
+
+[test]
+startup_wait = 10000
+
