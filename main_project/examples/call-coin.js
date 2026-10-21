@@ -63,7 +63,7 @@ async function main() {
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
     const programId = new PublicKey(
-        "529NN5LZgBptRJhX8zsjAMEe2BDrLyrA6H4RfFJUnj5x"
+        "E6huKbE3cpahat9ZCSyCTfoXbZCaywSmKdD8DhA6bxsi"
     );
 
     // 必须与 src/coin.rs 里的 MINT_AUTHORITY 一致

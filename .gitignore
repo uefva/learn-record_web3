@@ -20,7 +20,7 @@ test-ledger/
 /.stversions/Cargo.toml
 /.idea/.gitignore
 /.idea/deployment.xml
-/.idea/learn-record_web3.iml
+/.idea/main-project.iml
 /.idea/modules.xml
 /.idea/vcs.xml
 /.stignore

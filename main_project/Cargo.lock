@@ -1303,15 +1303,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "20870f649af7073d53e38067b2a84312175d56ea15217e1b15bc83506ec50afb"
 
 [[package]]
-name = "learn-record_web3"
-version = "0.1.0"
-dependencies = [
- "litesvm",
- "solana-program",
- "solana-system-interface",
-]
-
-[[package]]
 name = "libc"
 version = "0.2.190"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1466,6 +1457,15 @@ name = "log"
 version = "0.4.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6"
+
+[[package]]
+name = "main-project"
+version = "0.1.0"
+dependencies = [
+ "litesvm",
+ "solana-program",
+ "solana-system-interface",
+]
 
 [[package]]
 name = "memchr"
