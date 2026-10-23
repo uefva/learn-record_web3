@@ -11,14 +11,15 @@ skip-lint = false
 anchor_project = "2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK"
 
 [provider]
-cluster = "https://rpc.ankr.com/solana_devnet/[key]"
+cluster = "http://127.0.0.1:8899"
+#cluster = "https://rpc.ankr.com/solana_devnet/0aa4961bc15cbee6e2b9ae050772e4ec87897ba4709704a752ad14a2e95ed982"
 wallet = "~/.config/solana/id.json"
 
 [programs.devnet]
 anchor_project = "2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK"
 
 [scripts]
-test = "cargo test"
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""
 
 [hooks]
 
