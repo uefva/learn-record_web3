@@ -24,7 +24,6 @@ test-ledger/
 /.idea/modules.xml
 /.idea/vcs.xml
 /.stignore
-node_modules/.package-lock.json
 node_modules/.bin/errors
 node_modules/.bin/jayson
 node_modules/.bin/node-gyp-build

@@ -1,15 +1,25 @@
 import argparse
 import base64
 import pxsol
+import json, os
 
+def load_prikey(path='~/.config/solana/id.json'):
+    k = json.load(open(os.path.expanduser(path)))[:32]
+    n = int.from_bytes(bytes(k), 'big')
+    alpha = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+    s = ''
+    while n:
+        n, r = divmod(n, 58)
+        s = alpha[r] + s
+    return '1' * (len(k) - len(bytes(k).lstrip(b'\0'))) + s
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--net', type=str, choices=['develop', 'mainnet', 'testnet'], default='develop')
-parser.add_argument('--prikey', type=str, default='11111111111111111111111111111112')
+parser.add_argument('--prikey', type=str, default=None)
 parser.add_argument('args', nargs='+')
 args = parser.parse_args()
 
-user = pxsol.wallet.Wallet(pxsol.core.PriKey.base58_decode(args.prikey))
+user = pxsol.wallet.Wallet(pxsol.core.PriKey.base58_decode(args.prikey or load_prikey()))
 prog_pubkey = pxsol.core.PubKey.base58_decode('2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK')
 data_pubkey = prog_pubkey.derive_pda(bytearray(b'data') + user.pubkey.p)
 
