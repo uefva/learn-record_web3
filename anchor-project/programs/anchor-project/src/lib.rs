@@ -19,6 +19,10 @@ pub mod pxsol_ss_anchor {
         counter::close(ctx)
     }
 
+    pub fn append(ctx: Context<Append>, data: Vec<u8>) -> Result<()> {
+        counter::append(ctx, data)
+    }
+
     pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
         counter::update(ctx, data)
     }

@@ -14,6 +14,17 @@ pub fn close(ctx: Context<Close>) -> Result<()> {
     Ok(())
 }
 
+pub fn append(ctx: Context<Append>, data: Vec<u8>) -> Result<()> {
+    // let account_user = &ctx.accounts.user;
+    // let account_user_pda = &mut ctx.accounts.user_pda;
+    //
+    // account_user_pda.data
+
+
+
+    Ok(())
+}
+
 pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
     let account_user = &ctx.accounts.user;
     let account_user_pda = &mut ctx.accounts.user_pda;
@@ -74,6 +85,27 @@ pub struct Close<'info> {
 #[derive(Accounts)]
 #[instruction(new_data: Vec<u8>)]
 pub struct Update<'info> {
+    /// The authority allowed to mutate and fund reallocation.
+    #[account(mut)]
+    pub user: Signer<'info>,
+    /// PDA derived from authority; reallocated dynamically to fit `new_data`.
+    #[account(
+        mut,                                                                 // Will write new data.
+        seeds = [SEED, user.key().as_ref()],                                 // Must match initialization to locate the same PDA.
+        bump = user_pda.bump,                                                // Must match initialization to locate the same PDA.
+        realloc = Data::space_for(new_data.len()),                           // Reallocates space based on new data length.
+        realloc::payer = user,                                               // Authority pays for expansion.
+        realloc::zero = false,                                               // Preserves existing fields without zero-filling (only adjusts capacity).
+        constraint = user_pda.auth == user.key() @ PxsolError::Unauthorized, // Additional authority equality check; throws `PxsolError::Unauthorized` on failure.
+    )]
+    pub user_pda: Account<'info, Data>,
+    pub system_program: Program<'info, System>,
+}
+
+
+#[derive(Accounts)]
+#[instruction(new_data: Vec<u8>)]
+pub struct Append<'info> {
     /// The authority allowed to mutate and fund reallocation.
     #[account(mut)]
     pub user: Signer<'info>,
