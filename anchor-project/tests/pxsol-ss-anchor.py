@@ -61,6 +61,25 @@ def update():
     for e in r['meta']['logMessages']:
         print(e)
 
+def append():
+    rq = pxsol.core.Requisition(prog_pubkey, [], bytearray())
+    rq.account.append(pxsol.core.AccountMeta(user.pubkey, 3))
+    rq.account.append(pxsol.core.AccountMeta(data_pubkey, 1))
+    rq.account.append(pxsol.core.AccountMeta(pxsol.program.System.pubkey, 0))
+    rq.data = bytearray().join([
+        bytearray([149, 120, 18, 222, 236, 225, 88, 203]),
+        len(args.args[1].encode()).to_bytes(4, 'little'),
+        args.args[1].encode(),
+    ])
+    tx = pxsol.core.Transaction.requisition_decode(user.pubkey, [rq])
+    tx.message.recent_blockhash = pxsol.base58.decode(pxsol.rpc.get_latest_blockhash({})['blockhash'])
+    tx.sign([user.prikey])
+    txid = pxsol.rpc.send_transaction(base64.b64encode(tx.serialize()).decode(), {})
+    pxsol.rpc.wait([txid])
+    r = pxsol.rpc.get_transaction(txid, {})
+    for e in r['meta']['logMessages']:
+        print(e)
+
 
 def load():
     info = pxsol.rpc.get_account_info(data_pubkey.base58(), {})
