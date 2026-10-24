@@ -10,6 +10,10 @@ pub fn init(ctx: Context<Init>) -> Result<()> {
     Ok(())
 }
 
+pub fn close(ctx: Context<Close>) -> Result<()> {
+    Ok(())
+}
+
 pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
     let account_user = &ctx.accounts.user;
     let account_user_pda = &mut ctx.accounts.user_pda;
@@ -47,6 +51,23 @@ pub struct Init<'info> {
     )]
     pub user_pda: Account<'info, Data>,
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct Close<'info> {
+    /// The authority allowed to mutate and fund reallocation.
+    #[account(mut)]
+    pub user: Signer<'info>,
+    /// PDA derived from authority; reallocated dynamically to fit `new_data`.
+    #[account(
+        mut,                                                                 // Will write new data.
+        seeds = [SEED, user.key().as_ref()],                                 // Must match initialization to locate the same PDA.
+        bump = user_pda.bump,                                                // Must match initialization to locate the same PDA.
+        constraint = user_pda.auth == user.key()
+            @ PxsolError::Unauthorized,
+        close = user
+    )]
+    pub user_pda: Account<'info, Data>,
 }
 
 

@@ -67,5 +67,42 @@ def load():
     print(base64.b64decode(info['data'][0])[8 + 32 + 1 + 4:].decode())
 
 
+def close():
+    rq = pxsol.core.Requisition(prog_pubkey, [], bytearray())
+
+    # 与 Anchor 的 Close<'info> 账户顺序一致
+    rq.account.append(pxsol.core.AccountMeta(user.pubkey, 3))
+    rq.account.append(pxsol.core.AccountMeta(data_pubkey, 1))
+
+    # Anchor instruction discriminator:
+    # sha256("global:close") 的前 8 字节
+    rq.data = bytearray([
+        98, 165, 201, 177, 108, 65, 206, 96
+    ])
+
+    tx = pxsol.core.Transaction.requisition_decode(
+        user.pubkey, [rq]
+    )
+    tx.message.recent_blockhash = pxsol.base58.decode(
+        pxsol.rpc.get_latest_blockhash({})['blockhash']
+    )
+    tx.sign([user.prikey])
+
+    txid = pxsol.rpc.send_transaction(
+        base64.b64encode(tx.serialize()).decode(), {}
+    )
+    pxsol.rpc.wait([txid])
+
+    r = pxsol.rpc.get_transaction(txid, {})
+    print('Transaction:', txid)
+
+    if r and r.get('meta', {}).get('err') is not None:
+        print('Close failed:', r['meta']['err'])
+
+    for e in (r or {}).get('meta', {}).get('logMessages', []):
+        print(e)
+
+
+
 if __name__ == '__main__':
     eval(f'{args.args[0]}()')

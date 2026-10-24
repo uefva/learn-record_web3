@@ -15,6 +15,10 @@ pub mod pxsol_ss_anchor {
         counter::init(ctx)
     }
 
+    pub fn close(ctx: Context<Close>) -> Result<()> {
+        counter::close(ctx)
+    }
+
     pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
         counter::update(ctx, data)
     }
