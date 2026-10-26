@@ -2,8 +2,10 @@ use anchor_lang::prelude::*;
 
 mod counter;
 mod account;
+mod err;
 
-use counter::*;
+// use counter::*;
+use account::*;
 
 declare_id!("2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK");
 
