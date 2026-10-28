@@ -7,6 +7,8 @@ pub fn init(ctx: Context<Init>) -> Result<()> {
     account_user_pda.auth = account_user.key();
     account_user_pda.bump = ctx.bumps.user_pda;
     account_user_pda.data = Vec::new();
+    
+    
     Ok(())
 }
 
@@ -53,5 +55,15 @@ pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
         **account_user_pda_info.lamports.borrow_mut() = rent_exemption;
         **account_user.lamports.borrow_mut() = account_user.lamports().checked_add(refund).unwrap();
     }
+    Ok(())
+}
+
+pub fn init_mint(ctx: Context<CreateMint>) -> Result<()> {
+
+    Ok(())
+}
+
+pub fn init_token(ctx: Context<CreateToken>) -> Result<()> {
+
     Ok(())
 }

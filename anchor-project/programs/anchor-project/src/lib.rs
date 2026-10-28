@@ -28,4 +28,12 @@ pub mod pxsol_ss_anchor {
     pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
         counter::update(ctx, data)
     }
+
+    pub fn init_mint(ctx: Context<CreateMint>) -> Result<()>{
+            counter::init_mint(ctx)
+    }
+
+    pub fn init_token(ctx: Context<CreateToken>) -> Result<()>{
+        counter::init_token(ctx)
+    }
 }
