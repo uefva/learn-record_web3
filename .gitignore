@@ -2471,3 +2471,4 @@ package-lock.json
 /node_modules/utf-8-validate/src/validation.cc
 /.stversions/Cargo.lock
 .idea
+.vscode

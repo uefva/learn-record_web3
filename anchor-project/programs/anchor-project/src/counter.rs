@@ -1,4 +1,5 @@
 use anchor_lang::prelude::*;
+// use anchor_spl::token::{mint_to, MintTo};
 use crate::account::*;
 
 pub fn init(ctx: Context<Init>) -> Result<()> {
@@ -59,11 +60,14 @@ pub fn update(ctx: Context<Update>, data: Vec<u8>) -> Result<()> {
 }
 
 pub fn init_mint(ctx: Context<CreateMint>) -> Result<()> {
-
+    // msg!("init_mint: {:?}", ctx.accounts);
     Ok(())
 }
 
 pub fn init_token(ctx: Context<CreateToken>) -> Result<()> {
+    msg!("token.key: {:?}", ctx.accounts.token.key());
+    msg!("mint.key: {:?}", ctx.accounts.mint.key());
+    // msg!("init_token: {:?}", ctx.accounts);
 
     Ok(())
 }

@@ -8,7 +8,8 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-anchor_project = "2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK"
+anchor_project = "GFEJh6jg2gWEpDjZzuXtpGQJ3jETZVxyF9ETqDNnXE1C"
+pxsol_spl_anchor = "AQkWeJJmQtsXbznwx65CGVZp9dQmyecDXA9f64GvrpVT"
 
 [provider]
 cluster = "http://127.0.0.1:8899"
@@ -16,7 +17,8 @@ cluster = "http://127.0.0.1:8899"
 wallet = "~/.config/solana/id.json"
 
 [programs.devnet]
-anchor_project = "2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK"
+anchor_project = "GFEJh6jg2gWEpDjZzuXtpGQJ3jETZVxyF9ETqDNnXE1C"
+pxsol_spl_anchor = "AQkWeJJmQtsXbznwx65CGVZp9dQmyecDXA9f64GvrpVT"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""

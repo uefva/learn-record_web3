@@ -20,7 +20,7 @@ parser.add_argument('args', nargs='+')
 args = parser.parse_args()
 
 user = pxsol.wallet.Wallet(pxsol.core.PriKey.base58_decode(args.prikey or load_prikey()))
-prog_pubkey = pxsol.core.PubKey.base58_decode('2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK')
+prog_pubkey = pxsol.core.PubKey.base58_decode('GFEJh6jg2gWEpDjZzuXtpGQJ3jETZVxyF9ETqDNnXE1C')
 data_pubkey = prog_pubkey.derive_pda(bytearray(b'data') + user.pubkey.p)
 
 # init_mint 生成的 mint 密钥对保存在脚本目录下的 mint.json，供 init_token 复用。

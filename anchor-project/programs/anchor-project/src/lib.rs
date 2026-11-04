@@ -7,7 +7,7 @@ mod data;
 
 use account::*;
 
-declare_id!("2sPwcBjsWBRnLZEShoYWCRuY8PAat9HGGsUHhjf3VXZK");
+declare_id!("GFEJh6jg2gWEpDjZzuXtpGQJ3jETZVxyF9ETqDNnXE1C");
 
 #[program]
 pub mod pxsol_ss_anchor {
