@@ -106,9 +106,9 @@ def deploy():
     # 创建 Token-2022 mint
     print('main: create mint')
     pubkey_mint = spl_create(9, {
-        'name': 'PXSOL',
-        'symbol': 'PXS',
-        'uri': 'https://raw.githubusercontent.com/mohanson/pxsol/refs/heads/master/res/pxs.json',
+        'name': 'KASOL',
+        'symbol': 'KAS',
+        'uri': 'https://www.4399.com/tx/pxsol-spl-anchor-metadata.json',
     })
     print(f'main: create mint pubkey={pubkey_mint.base58()}')
     info_save('pubkey_mint', pubkey_mint.base58())
